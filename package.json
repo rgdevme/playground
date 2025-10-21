@@ -17,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/rgdevme/playground/issues"
   },
-  "homepage": "https://github.com/rgdevme/playground#readme"
+  "homepage": "https://github.com/rgdevme/playground#readme",
+  "devDependencies": {
+    "@angular-devkit/core": "~20.3.0",
+    "@nx/angular": "^21.6.5"
+  },
+  "dependencies": {}
 }
