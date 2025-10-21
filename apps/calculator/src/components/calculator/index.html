@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="screen">
+      <div class="display">{{ display() }}</div>
+      <div class="result">{{ result() }}</div>
+    </div>
+    <div class="buttons">
+      @for (key of keys; track key.label) {
+      <div class="key key-{{ key.name }}" (click)="pressKey(key.label)" style="--key-area: {{ key.name }};">{{ key.label
+        }}</div>
+      }
+    </div>
+  </div>
+</div>

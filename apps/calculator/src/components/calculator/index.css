@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+.wrapper {
+  padding: 1rem;
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 4rem 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: min-content;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 2rem;
+  border: white solid 1px;
+  background: #EEF0F4;
+  box-shadow: 20px 20px 60px #d9d9d9,
+    -20px -20px 60px #ffffff;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: 1rem;
+  padding: 1rem;
+  flex: 1 1 auto;
+  /* width: 100%; */
+  /* background: hsl(215, 24%, 90%); */
+  background: hsl(160, 80%, 80%);
+  box-shadow: inset 10px 10px 40px rgba(204, 209, 216, 0.5800000000000001), inset -10px -10px 40px rgba(252, 255, 255, 0.6799999999999999);
+  border-radius: 1rem;
+  border: solid hsl(159, 73%, 56%) 2px;
+  color: hsl(159, 49%, 29%);
+  z-index: 3;
+}
+
+.screen>* {
+  flex: 1 0 100%;
+  line-height: 1.5;
+  font-size: 2rem;
+  max-width: 100%;
+  min-height: 3rem;
+  text-align: right;
+  line-break: anywhere;
+}
+
+.screen .result {
+  font-weight: bold;
+}
+
+.buttons {
+  flex: 1 1 autos;
+  display: grid;
+  grid-template:
+    'del    clear div    mult'
+    'seven  eight nine    sub'
+    'four   five  six     sub'
+    'one    two   three   add'
+    'zero   zero  dec     add'
+    / 4rem 4rem 4rem 4rem;
+  gap: 1rem;
+}
+
+.key {
+  --btn-color: #fff5f5;
+  --h: 0;
+  --s: 5%;
+  --l: 90%;
+  --btn-grad-start: hsla(var(--h), var(--s), var(--l), 1);
+  --btn-grad-end: hsla(var(--h), var(--s), calc(var(--l) - 10%), 0.3);
+  --btn-bg: hsla(var(--h), var(--s), calc(var(--l) + 20%), 0.3);
+  --btn-bg-act: hsla(var(--h), var(--s), calc(var(--l) - 20%), 0.3);
+  grid-area: var(--key-area);
+  color: #090909;
+  padding: 0.75em 1em;
+  font-size: 18px;
+  border-radius: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  /* min-width: 4rem; */
+  border: 1px solid var(--btn-color);
+  transition: all 0.3s;
+  text-align: center;
+  background: linear-gradient(145deg, var(--btn-grad-end), var(--btn-grad-start));
+  background-color: var(--btn-bg);
+  box-shadow: 9.91px 9.91px 15px #D9DADE, -9.91px -9.91px 15px #FFFFFF;
+}
+
+.key-clear,
+.key-del {
+  --s: 100%;
+  --l: 50%;
+}
+
+.key-clear {
+  --h: 50;
+}
+
+.key-del {
+  --h: 30;
+}
+
+.key:active {
+  color: #666;
+  background-color: var(--btn-bg);
+  box-shadow: inset 9.91px 9.91px 15px var(--btn-grad-end), inset -9.91px -9.91px 15px var(--btn-grad-start);
+}
