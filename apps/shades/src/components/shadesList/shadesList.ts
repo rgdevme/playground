@@ -56,6 +56,7 @@ export class ShadesList {
     const shades = this.scaleTo('black')
     const middle = this.hexToShade(this.color())
     return [...tints, middle, ...shades]
+      .slice(1, -1)
   })
 
 

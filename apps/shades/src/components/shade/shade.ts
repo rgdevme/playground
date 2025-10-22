@@ -13,6 +13,6 @@ export class Shade {
   invert = computed(() => {
     const { code } = this.color()
     const contrast = chroma.contrast('black', code)
-    return contrast <= 4.5 ? 'white' : 'black'
+    return contrast <= 5 ? 'white' : 'black'
   })
 }
