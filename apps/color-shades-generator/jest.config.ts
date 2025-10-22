@@ -1,8 +1,8 @@
 export default {
-  displayName: 'color-shades-generator',
+  displayName: 'shades',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/color-shades-generator',
+  coverageDirectory: '../../coverage/apps/shades',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

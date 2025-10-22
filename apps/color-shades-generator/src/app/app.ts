@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ShadesList } from '../components/shadesList/shadesList';
+import { Topbar } from '../components/topbar/topbar';
 
 @Component({
-  imports: [RouterModule],
+  imports: [Topbar, ShadesList],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
