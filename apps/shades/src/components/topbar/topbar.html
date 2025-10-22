@@ -1,1 +1,22 @@
-<p>topbar works!</p>
+<div id="topbar">
+  <button (click)="addColor.emit()">Add hue</button>
+
+  <div class="settings">
+    <div class="steps">
+      <span>steps:</span>
+      <input type="number" [(ngModel)]="steps" />
+    </div>
+    <div class="format">
+      <span>format:</span>
+      <input type="text" [(ngModel)]="format" />
+    </div>
+    <div class="output">
+      <span>output:</span>
+      <input type="text" [(ngModel)]="output" />
+    </div>
+  </div>
+  <!-- <mat-form-field>
+    <input matInput [(ngModel)]="leftColor">
+  </mat-form-field> -->
+  <button (click)="showOutput.emit()">Show output</button>
+</div>

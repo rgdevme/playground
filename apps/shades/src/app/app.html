@@ -1,2 +1,15 @@
-<app-topbar></app-topbar>
-<app-shades-list></app-shades-list>
+<app-topbar
+  (addColor)="addColor()"
+  (showOutput)="showOutput()"
+  [(steps)]="steps"
+  [(format)]="format"
+  [(output)]="output"
+   />
+@for (color of colors(); track color) {
+  <app-shades-list
+    [id]="color"
+    [steps]="steps"
+    [format]="format"
+    />
+}
+<span>{{ colors().length }}</span>
