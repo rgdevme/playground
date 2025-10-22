@@ -1,10 +1,4 @@
 {
   "name": "shades",
-  "type": "module",
-  "dependencies": {
-    "@angular/animations": "^20.3.6",
-    "chroma-js": "^3.1.2",
-    "color-namer": "^1.4.0",
-    "ngx-colors": "^3.6.0"
-  }
+  "type": "module"
 }
