@@ -1,26 +1,26 @@
 {
-  "name": "color-shades-generator",
+  "name": "shades",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/color-shades-generator/src",
+  "sourceRoot": "apps/shades/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/color-shades-generator",
-        "browser": "apps/color-shades-generator/src/main.ts",
+        "outputPath": "dist/apps/shades",
+        "browser": "apps/shades/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/color-shades-generator/tsconfig.app.json",
+        "tsConfig": "apps/shades/tsconfig.app.json",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/color-shades-generator/public"
+            "input": "apps/shades/public"
           }
         ],
-        "styles": ["apps/color-shades-generator/src/styles.css"]
+        "styles": ["apps/shades/src/styles.css"]
       },
       "configurations": {
         "production": {
@@ -51,10 +51,10 @@
       "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "color-shades-generator:build:production"
+          "buildTarget": "shades:build:production"
         },
         "development": {
-          "buildTarget": "color-shades-generator:build:development"
+          "buildTarget": "shades:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -62,7 +62,7 @@
     "extract-i18n": {
       "executor": "@angular/build:extract-i18n",
       "options": {
-        "buildTarget": "color-shades-generator:build"
+        "buildTarget": "shades:build"
       }
     },
     "lint": {
@@ -72,16 +72,16 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/color-shades-generator/jest.config.ts",
-        "tsConfig": "apps/color-shades-generator/tsconfig.spec.json"
+        "jestConfig": "apps/shades/jest.config.ts",
+        "tsConfig": "apps/shades/tsconfig.spec.json"
       }
     },
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "color-shades-generator:build",
-        "staticFilePath": "dist/apps/color-shades-generator/browser",
+        "buildTarget": "shades:build",
+        "staticFilePath": "dist/apps/shades/browser",
         "spa": true
       }
     }

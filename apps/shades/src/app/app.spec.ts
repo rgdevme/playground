@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { ShadesList } from '../components/shadesList/shadesList';
+import { Topbar } from '../components/topbar/topbar';
 import { App } from './app';
-import { NxWelcome } from './nx-welcome';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App, NxWelcome],
+      imports: [App, Topbar, ShadesList],
     }).compileComponents();
   });
 
@@ -13,8 +14,6 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome color-shades-generator'
-    );
+    expect(compiled.querySelector('h1')?.textContent).toBeDefined();
   });
 });

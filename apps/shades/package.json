@@ -1,5 +1,5 @@
 {
-  "name": "color-shades-generator",
+  "name": "shades",
   "type": "module",
   "dependencies": {
     "@angular/animations": "^20.3.6",
