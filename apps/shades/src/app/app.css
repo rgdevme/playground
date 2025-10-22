@@ -1,0 +1,12 @@
+.wrapper { 
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.wrapper > * {
+
+  flex: 1;
+}

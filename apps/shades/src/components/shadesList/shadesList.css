@@ -1,0 +1,9 @@
+.shades-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.shades-list > * {
+  flex: 1
+}

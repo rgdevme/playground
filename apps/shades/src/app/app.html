@@ -5,11 +5,14 @@
   [(format)]="format"
   [(output)]="output"
    />
-@for (color of colors(); track color) {
-  <app-shades-list
+   
+<div class="wrapper">
+  @for (color of colors(); track color) {
+    <app-shades-list
     [id]="color"
     [steps]="steps"
     [format]="format"
+    (onRemove)="removeColor($index)"
     />
-}
-<span>{{ colors().length }}</span>
+  }
+</div>

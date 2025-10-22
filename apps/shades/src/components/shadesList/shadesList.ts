@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, model, output } from '@angular/core';
 import chroma from 'chroma-js';
 import { Shade } from '../shade/shade';
 import { ShadeSelector } from '../shadeSelector/shadeSelector';
@@ -18,44 +18,45 @@ export class ShadesList {
   id = input.required<string>()
   steps = input.required<number>()
   format = input.required<Format>()
-  color = chroma.random().hex()
+  color = model(chroma.random().hex())
+  onRemove = output<void>()
 
-  scale = computed(() => {
-    const tints = chroma.scale(['white', this.color])
-      .domain([0, 100])
+  hexToShade = (hex: string, index: number = 0, total: any[] = []) => {
+    const c = chroma(hex)
+    const format = this.format()
+    const isCss = format !== 'hex'
+
+    const code = isCss ? c.css(format) : c[format]()
+    const percent = !total.length ? 0 : Math.round(100 - ((index) * 100 / (total?.length - 1 || 1)))
+    return ({ hex, code, percent })
+
+  }
+
+  scaleTo = (color: 'white' | 'black', steps = this.steps()) => {
+    const edge = chroma(color)
+    const target = chroma(this.color())
+    const invert = edge.luminance() < target.luminance()
+
+    const order = [edge, target]
+
+    const scale = chroma.scale(order)
       .mode('lab')
       .correctLightness()
-      .colors(this.steps() + 2)
-      .slice(1, -1)
+      .colors(steps + 2)
+      .map(this.hexToShade)
+      .slice(0, -1)
 
-    const shades = chroma.scale([this.color, 'black'])
-      .domain([0, 100])
-      .mode('lab')
-      .correctLightness()
-      .colors(this.steps() + 2)
-      .slice(1, -1)
-
-
-    const scale = [...tints, this.color, ...shades]
-      .map((code, i, l) => {
-        const c = chroma(code)
-        const f = this.format()
-        let x: string
-        if (CSS_FORMATS.includes(f as CSS_Format)) x = c.css(f as CSS_Format)
-        else x = c[f]() as string
-        return ({
-          hex: code,
-          code: x,
-          percent: Math.round((i * 100 / (l.length - 1)))
-        })
-      })
+    if (invert) scale.reverse()
 
     return scale
+  }
+
+  scale = computed(() => {
+    const tints = this.scaleTo('white')
+    const shades = this.scaleTo('black')
+    const middle = this.hexToShade(this.color())
+    return [...tints, middle, ...shades]
   })
 
-  middle = computed(() => {
-    const s = this.scale()
-    return s[Math.floor((s.length - 1) / 2)].hex
-  })
 
 }

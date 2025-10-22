@@ -1,6 +1,6 @@
-<div class="shades">
-  <app-shade-selector [code]="middle()"/>
+<div class="shades-list">
+  <app-shade-selector [(code)]="color" (onRemove)="onRemove.emit()"/>
   @for (shade of scale(); track shade) {
-    <app-shade [color]="shade" [marked]="shade.hex === middle()"/>
+    <app-shade [color]="shade" [marked]="shade.hex === color()"/>
   }
 </div>

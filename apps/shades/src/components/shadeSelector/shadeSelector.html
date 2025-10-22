@@ -1,4 +1,5 @@
-<div class="shade-data">
+<span class="name">({{ name() | titlecase}})</span>
+<div class="controls">
   <input type="text" [(ngModel)]="code">
-  <span>{{ name() }}</span>
+  <button class="rmv" (click)="onRemove.emit()">rmv</button>
 </div>
