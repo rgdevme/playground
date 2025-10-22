@@ -1,1 +1,5 @@
-<p>shade works!</p>
+<div class="shade" style="--bg: {{ color().code }}; --c: {{ invert() }};" [attr.data-marked]="marked()">
+
+  <span class="percentage">{{ color().percent }}%</span>
+  <span class="code">{{ color().code }}</span>
+</div>
