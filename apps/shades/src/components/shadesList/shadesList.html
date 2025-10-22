@@ -1,1 +1,6 @@
-<p>shadesList works!</p>
+<div class="shades">
+  <app-shade-selector [code]="middle()"/>
+  @for (shade of scale(); track shade) {
+    <app-shade [color]="shade" [marked]="shade.hex === middle()"/>
+  }
+</div>
