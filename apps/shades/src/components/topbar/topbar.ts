@@ -2,9 +2,10 @@ import { Component, input, model, ModelSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ColorSketchModule } from 'ngx-color/sketch'
 import { Format } from '../shadesList/shadesList';
+import { Button } from '../button/button';
 
 @Component({
-  imports: [ColorSketchModule, FormsModule],
+  imports: [ColorSketchModule, FormsModule, Button],
   selector: 'app-topbar',
   templateUrl: './topbar.html',
   styleUrl: './topbar.css',

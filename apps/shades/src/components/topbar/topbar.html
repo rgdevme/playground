@@ -1,15 +1,17 @@
-<div id="topbar">
-  <button (click)="addColor.emit()">Add hue</button>
+<div class="wrapper">
+  <app-button label="Add hue" leftIcon="color-swatch" (click)="addColor.emit()" />
 
   <div class="settings">
     <div class="steps">
       <span>steps:</span>
       <input type="number" [(ngModel)]="steps" />
     </div>
+    <div class="divider"></div>
     <div class="format">
       <span>format:</span>
       <input type="text" [(ngModel)]="format" />
     </div>
+    <div class="divider"></div>
     <div class="output">
       <span>output:</span>
       <input type="text" [(ngModel)]="output" />
@@ -18,5 +20,5 @@
   <!-- <mat-form-field>
     <input matInput [(ngModel)]="leftColor">
   </mat-form-field> -->
-  <button (click)="showOutput.emit()">Show output</button>
+  <app-button label="Show output" leftIcon="terminal-2" (click)="showOutput.emit()" />
 </div>
