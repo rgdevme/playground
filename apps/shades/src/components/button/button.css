@@ -1,0 +1,59 @@
+@import url('node_modules/@tabler/icons-webfont/dist/tabler-icons.min.css');
+
+button {
+  all: unset;
+}
+
+button .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  font-weight: 200;
+  padding: 0.5em 1em;
+  color: var(--bg);
+  border: solid currentColor 1px;
+  border-radius: 0.75em;
+  cursor: pointer;
+  outline: none;
+  transition-property: background-color, color, box-shadow;
+  transition-duration: 150ms;
+  min-height: 1em;
+}
+
+button:hover .content {
+  background-color: var(--bg);
+  color: white;
+  box-shadow: 0 0.25em 0.5em 0 rgba(0, 0, 0, 0.15);
+}
+
+button:active .content {
+  background-color: var(--bg-active);
+  box-shadow: 0 0.1em 0.25em 0 rgba(0, 0, 0, 0.15);
+}
+
+button[data-variant=subtle] .content {
+  border: solid transparent 1px;
+}
+
+button[data-single=true] .content {
+  padding: 0.5em 0.5em;
+}
+
+button[data-single=true] .content .ti {
+  width: 1.3em;
+}
+
+button * {
+  line-height: 1.3em;
+}
+
+.ti {
+  color: currentColor;
+  font-size: 1em;
+  line-height: 1.3em;
+  aspect-ratio: 1;
+  text-align: center;
+  vertical-align: middle;
+}

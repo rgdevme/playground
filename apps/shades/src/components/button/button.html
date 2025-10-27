@@ -1,0 +1,7 @@
+<button (click)="onClick.emit()" attr.data-single="{{ singleIcon() }}" attr.data-variant="{{ variant() }}">
+  <div class="content" [style]="cssvars()">
+    @if (leftIcon()) { <i class="ti ti-{{ leftIcon() }}"></i> }
+    @if (label()) { <span class="text">{{ label() }}</span> }
+    @if (rightIcon()) { <i class="ti ti-{{ rightIcon() }}"></i> }
+  </div>
+</button>
