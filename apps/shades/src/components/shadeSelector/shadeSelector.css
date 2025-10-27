@@ -11,35 +11,15 @@
   font-weight: 300;
 
   color: darkslategray;
-
-  max-height: 4rem;
 }
 
 .controls {
   display: flex;
   flex: 1 1 100%;
   gap: 0.5rem;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   flex-direction: row;
-  width: 100%;
-}
-
-input {
-  text-align: center;
-
-  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
-  font-size: 0.75rem;
-  font-weight: 300;
-
-  border: none;
-
-  background: #f2f2f2;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-
-  flex: 1 1 auto;
-
-  margin-left: 2.75rem;
+  justify-content: center;
 }
 
 .rmv {
@@ -51,4 +31,33 @@ input {
   border-radius: 0.5rem;
   padding: 0.25rem 0.5rem;
   flex: 0 1 auto;
+}
+
+.swatch {
+  position: relative;
+  display: flex;
+  background: #f2f2f2;
+  border-radius: 0.5rem;
+  flex: 1 1 auto;
+}
+
+.swatch color-chrome {
+  position: absolute;
+  top: calc(100% + 0.5em);
+  left: 0;
+  z-index: 1;
+}
+
+.swatch input {
+  all: unset;
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+  font-size: 0.75rem;
+  font-weight: 300;
+
+  border: none;
+
+  padding: 0 0.5rem;
+  min-width: 0;
+
+  width: 100%;
 }
