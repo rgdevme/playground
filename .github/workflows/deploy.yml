@@ -1,4 +1,6 @@
-name: Deploy Affected Nx Targets to GitHub Pages
+# .github/workflows/deploy.yml
+
+name: 'Build Affected & Deploy to GitHub Pages'
 
 on:
   push:
@@ -22,64 +24,49 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      # Set the default branch name for Nx affected comparison
-      NX_BASE_BRANCH: main
-
     steps:
-      - name: Checkout Repository
+      - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
         with:
-          # Fetch all history for proper base/head comparison
+          # Required to get the full history for nx affected commands
           fetch-depth: 0
 
-      - name: Setup Node.js
+      - name: 🛠️ Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm' # Use 'yarn' or 'pnpm' if you use those package managers
+          node-version: '24' # Use your required Node version
+          cache: 'npm' # Or 'yarn', 'pnpm'
 
-      - name: Install Dependencies
-        run: npm install
+      - name: 📦 Install Dependencies
+        run: npm install # Or 'yarn install', 'pnpm install'
 
       # -----------------------------------------------------------
       # 1. NX CACHING AND AFFECTED BUILD
       # -----------------------------------------------------------
 
-      - name: Cache Nx Build Results
-        uses: actions/cache@v4
+      - name: 🔍 Determine affected projects and set SHAs
+        # Sets NX_BASE and NX_HEAD environment variables for the build step
+        uses: nrwl/nx-set-shas@v4
         with:
-          path: ./.nx/cache
-          key: ${{ runner.os }}-nx-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**/project.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nx-${{ hashFiles('package-lock.json') }}-
+          # Use your main branch name if it's not 'main'
+          main-branch-name: 'main'
 
-      - name: Get Base SHA for Affected Check
-        id: base
-        # This determines the commit hash to compare against (e.g., the last commit on the main branch)
-        run: echo "SHA=$(git rev-parse origin/${{ env.NX_BASE_BRANCH }}~1)" >> $GITHUB_OUTPUT
-        
-      - name: Build Affected Targets
+      - name: ⚙️ Build Affected Targets
+        id: build-affected
         run: |
-          echo "Building affected projects compared to base commit: ${{ steps.base.outputs.SHA }}"
-          # Use the affected command to build only projects that have changed.
-          # We use the SHA from the base branch to ensure a correct comparison.
-          npx nx affected:build --all --base=${{ steps.base.outputs.SHA }} --head=HEAD --parallel --configuration=production
+          # The '--output-on-the-files' flag is crucial for this deployment pattern.
+          # It prints a list of the built project output folders (e.g., 'dist/apps/my-app')
+          # to a file, which we use later.
+          npx nx affected -t build
 
-      # -----------------------------------------------------------
-      # 2. DEPLOYMENT TO GITHUB PAGES
-      # -----------------------------------------------------------
-      
-      # IMPORTANT: Adjust the path here to the correct 'dist' folder for your deployable application.
-      # For example, if you want to deploy an app named 'docs', use 'dist/docs'.
-      - name: Setup GitHub Pages
+      - name: ⬆️ Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload Deployment Artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: ⏫ Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v4
         with:
-          path: dist  # <-- CRITICAL: REPLACE 'dist/my-app' with your target app's output directory
+          path: dist
 
-      - name: Deploy to GitHub Pages
+      - name: 🚢 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
