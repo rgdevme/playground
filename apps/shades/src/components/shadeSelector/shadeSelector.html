@@ -3,7 +3,7 @@
   <div class="swatch">
     <app-button leftIcon="color-picker" variant="subtle" (click)="togglePicker(!showPicker)" />
     @if (showPicker) {
-    <color-chrome [color]="code()" [disableAlpha]="true" width="100%" (onChange)="handleColorChange($event)" (onChangeComplete)="togglePicker(false)" />
+    <color-chrome [color]="code().hex()" [disableAlpha]="true" width="100%" (onChange)="handleColorChange($event)" />
     }
     <input type="text" [(ngModel)]="code">
   </div>

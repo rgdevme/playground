@@ -1,6 +1,6 @@
 <div class="shades-list">
-  <app-shade-selector [(code)]="color" (onRemove)="onRemove.emit()"/>
-  @for (shade of scale(); track shade) {
-    <app-shade [color]="shade" [marked]="shade.hex === color()"/>
+  <app-shade-selector [code]="color()" (codeChange)="updateColor($event)" (onRemove)="onRemove.emit()"/>
+  @for (shade of scale(); track shade.id) {
+    <app-shade [color]="shade" [marked]="shade.hex === color().hex()"/>
   }
 </div>

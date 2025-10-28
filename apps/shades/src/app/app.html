@@ -1,18 +1,27 @@
 <app-topbar
   (addColor)="addColor()"
-  (showOutput)="showOutput()"
+  (showOutput)="toggleOutput(!showOutput)"
   [(steps)]="steps"
   [(format)]="format"
   [(output)]="output"
    />
    
 <div class="wrapper">
-  @for (color of colors(); track color) {
+  @for (color of colors(); track color.id) {
     <app-shades-list
-    [id]="color"
-    [steps]="steps"
-    [format]="format"
+    [id]="color.id"
+    [color]="color.center"
+    [steps]="steps()"
+    [format]="format()"
     (onRemove)="removeColor($index)"
+    (updateCenter)="updateCenter($index, $event)"
     />
   }
 </div>
+
+<app-output
+  [steps]="steps()"
+  [format]="format()"
+  [visible]="showOutput"
+  (showOutput)="toggleOutput(false)"
+  [colors]="colors()"/>
