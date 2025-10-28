@@ -11,6 +11,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/calculator",
+        "baseHref": "./",
         "browser": "apps/calculator/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/calculator/tsconfig.app.json",

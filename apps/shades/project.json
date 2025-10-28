@@ -11,6 +11,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/shades",
+        "baseHref": "./",
         "browser": "apps/shades/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/shades/tsconfig.app.json",
@@ -81,7 +82,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "shades:build",
-        "staticFilePath": "dist/apps/shades/browser",
+        "staticFilePath": "dist/apps/shades",
         "spa": true
       }
     }
