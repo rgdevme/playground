@@ -54,10 +54,7 @@ jobs:
       - name: ⚙️ Build Affected Targets
         id: build-affected
         run: |
-          # The '--output-on-the-files' flag is crucial for this deployment pattern.
-          # It prints a list of the built project output folders (e.g., 'dist/apps/my-app')
-          # to a file, which we use later.
-          npx nx affected -t build
+          npx nx affected -t build --output-on-the-file=dist --ci --skip-nx-cache
 
       - name: ⬆️ Setup GitHub Pages
         uses: actions/configure-pages@v5
