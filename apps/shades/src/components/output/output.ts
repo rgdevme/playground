@@ -19,19 +19,20 @@ export class Output {
   text = computed(() => {
     return this
       .colors()
-      .map(({ center }) => {
+      .map(({ center }, i) => {
         const name = ColorNamer(center.hex()).pantone[0].name.toLowerCase().replace(/\s/g, '-')
 
         return {
-          id: name,
+          id: `${name}-${i}`,
           value: getScale(
             center,
             this.steps(),
             this.format()
           ).map(c => ({
             id: `--color-${name}-${c.numbering}`,
-            value:`--color-${name}-${c.numbering}: ${c.code};`
-          }))}
+            value: `--color-${name}-${c.numbering}: ${c.code};`
+          }))
+        }
       })
 
   })
