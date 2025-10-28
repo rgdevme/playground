@@ -1,0 +1,15 @@
+<div class="backdrop"  [attr.data-visible]="visible()" (click)="showOutput.emit()"></div>
+
+<div class="modal" [attr.data-visible]="visible()">
+  <p class="title">Code</p>
+
+  <div class="code">
+    @for (group of text(); track group.id) {
+      @for (string of group.value; track string.id) {
+        {{ string.value }}
+        <br>
+      }
+      <br>
+    }
+  </div>
+</div>

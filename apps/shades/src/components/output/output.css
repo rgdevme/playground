@@ -1,0 +1,44 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  max-height: calc(100vh - 4rem);
+  /* width: 100%; */
+
+  overflow: auto;
+  /* background: rgba(0, 0, 0, 0.5); */
+
+  background: white;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 1em 2em 0 rgba(0, 0, 0, 0.15);
+
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+
+}
+
+.backdrop {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+}
+
+.backdrop[data-visible=true],
+.modal[data-visible=true] {
+  transition: opacity 0ms 150ms, z-index 150ms 0ms;
+  opacity: 1;
+  z-index: 1;
+  pointer-events: initial;
+}
+
+.backdrop[data-visible=false],
+.modal[data-visible=false] {
+  transition: opacity 150ms 0ms, z-index 0ms 150ms;
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+}
