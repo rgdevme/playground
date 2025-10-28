@@ -54,7 +54,7 @@ jobs:
       - name: ⚙️ Build Affected Targets
         id: build-affected
         run: |
-          npx nx affected -t build --output-on-the-file=dist --ci --skip-nx-cache
+          npx nx run-many -t build --output-on-the-file=dist --ci --skip-nx-cache
 
       - name: ⬆️ Setup GitHub Pages
         uses: actions/configure-pages@v5
