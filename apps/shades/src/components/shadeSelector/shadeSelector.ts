@@ -24,7 +24,10 @@ export class ShadeSelector {
     this.showPicker = state
   }
 
-  handleColorChange($event: ColorEvent) {
-    this.code.set(chroma($event.color.hex))
+  handleColorChange(event: ColorEvent | string) {
+    const input = typeof event === 'string'
+      ? event
+      : event.color.hex
+    this.code.set(chroma(input))
   }
 }
