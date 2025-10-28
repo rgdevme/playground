@@ -1,50 +1,18 @@
-// Uncomment this line to use CSS modules
-// import styles from './app.module.css';
-import NxWelcome from './nx-welcome';
-
-import { Route, Routes, Link } from 'react-router-dom';
+import MenuItem from "../components/menu-item/menu-item";
 
 export function App() {
   return (
     <div>
-      <NxWelcome title="home" />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
+      <h1>My projects</h1>
       <div role="navigation">
         <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
+          <MenuItem
+            href="/apps/shades/browser/index.html"
+            label="CSSvar Shades generator"
+            description="Generate css variables for the main colors in your application. Made with Angular 2"
+            color="#ff0080" />
         </ul>
       </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-      {/* END: routes */}
     </div>
   );
 }

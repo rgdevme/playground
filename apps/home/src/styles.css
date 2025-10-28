@@ -1,1 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+body {
+  background-color: hsl(0, 0%, 95%);
+}
 /* You can add global styles to this file, and also import other style files */
+ul, li  {
+  all: unset
+}
