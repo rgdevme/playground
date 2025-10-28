@@ -1,10 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import chroma from 'chroma-js';
+import { ColorEvent } from 'ngx-color';
+import { Output } from '../components/output/output';
 import { Format, ShadesList } from '../components/shadesList/shadesList';
 import { Topbar } from '../components/topbar/topbar';
-import { Output } from '../components/output/output';
-import { ColorEvent } from 'ngx-color';
-import { getScale } from '../utils/scale';
 
 @Component({
   imports: [Topbar, ShadesList, Output],
@@ -14,7 +13,7 @@ import { getScale } from '../utils/scale';
 })
 export class App {
   protected title = 'color-shades-generator';
-  colors = signal<{ id: string, center: chroma.Color, }[]>([]);
+  colors = signal(Array.from({ length: 5 }, () => ({ id: crypto.randomUUID(), center: chroma.random() })));
   steps = signal(5)
   format = signal<Format>('hex')
   output = 'css'
@@ -45,10 +44,8 @@ export class App {
 
   }
 
-  updateCenter= (index: number, color: string) => {
+  updateCenter = (index: number, color: string) => {
     this.colors.update(value => {
-      console.log({value});
-      
       const upd = [...value]
       upd[index].center = color as any
       return upd
