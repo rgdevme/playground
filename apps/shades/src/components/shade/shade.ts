@@ -1,9 +1,8 @@
-import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import chroma from 'chroma-js';
 
 @Component({
   selector: 'app-shade',
-  imports: [],
   templateUrl: './shade.html',
   styleUrl: './shade.css'
 })
