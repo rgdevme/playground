@@ -7,6 +7,6 @@ export default [
   {
     "name": "CSSvar Shades generator",
     "description": "Generate css variables for the main colors in your application. Made with Angular 2, to explore two way data binding, loops, signals, and attributes.",
-    "href": "/apps/shades/browser"
+    "href": "./apps/shades/browser"
   }
 ]
