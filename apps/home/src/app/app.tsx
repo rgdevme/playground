@@ -1,17 +1,18 @@
+import chroma from 'chroma-js';
+import project from '../assets/projects';
 import MenuItem from "../components/menu-item/menu-item";
+import styles from './app.module.css'
 
 export function App() {
   return (
-    <div>
+    <div className={styles.container}>
       <h1>My projects</h1>
-      <div role="navigation">
-        <ul>
-          <MenuItem
-            href="/apps/shades/browser/index.html"
-            label="CSSvar Shades generator"
-            description="Generate css variables for the main colors in your application. Made with Angular 2"
-            color="#ff0080" />
-        </ul>
+      <div role="navigation" className={styles.list}>
+        {project.map(project =>
+          <ul key={project.href}>
+            <MenuItem {...project} color={chroma.random()} />
+          </ul>
+        )}
       </div>
     </div>
   );

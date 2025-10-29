@@ -1,1 +1,19 @@
 /* Your styles goes here. */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+  font-family: 'JetBrains Mono', 'Courier New', Courier, monospace;
+}
+
+.container 
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem
+}
+
+.list ul {
+  flex: 1 1 0%;
+}

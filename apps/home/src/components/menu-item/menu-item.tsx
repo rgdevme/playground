@@ -1,24 +1,29 @@
 import chroma from 'chroma-js';
 import { CSSProperties } from 'react';
 import styles from './menu-item.module.css';
+import projects from '../../assets/projects';
 
 export const MenuItem = ({
-  label,
+  name,
   description,
   href,
-  color = '#595959'
-}: {
-  label: string,
-  href: string,
-  description?: string,
-  color?: chroma.ChromaInput
+  color = chroma('#595959')
+}: typeof projects[number] & {
+  color?: chroma.Color
 }) => {
-  const c = chroma(color)
+  let base = color.set('hsl.s', 1).set('hsl.l', 0.5)
+  if (chroma.contrast(base, 'white') < 4.5) {
+    base = base.set('hsl.s', 1).set('hsl.l', 0.38)
+  }
+  const c = base.hex()
+  const b = base.alpha(0.5)
+  const s = base.alpha(0.15).hex()
+
   return (
-    <li className={styles.container} style={{ '--c': c.hex(), '--b': c.alpha(0.5).hex(), '--s': c.alpha(0.25).hex() } as CSSProperties}>
+    <li className={styles.container} style={{ '--c': c, '--b': b, '--s': s } as CSSProperties}>
       <a href={href}>
         <div className={styles.wrapper}>
-          <h2 className='label'>{label}</h2>
+          <h2 className='label'>{name}</h2>
           {!description ? null : <p className='label'>{description}</p>}
         </div>
       </a>
