@@ -1,0 +1,12 @@
+### To-do
+- [ ] Configurable focus timer
+- [ ] Configurable Shortbreak timer
+- [ ] Configurable Longbreak timer
+- [ ] Configurable rounds
+- [ ] Configurable Shortbreak-Longbreak ratio
+- [ ] Manage timers' queue
+- [ ] Start, pause, stop, and reset timers' queue
+- [ ] Make it PWA
+- [ ] Configurable finish time
+- [ ] Configurable auto-start time
+- [ ] Configurable sounds for each timer start
