@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import NxWelcome from './NxWelcome.vue';
+import Layout from '../components/layout/layout.vue';
+
 </script>
 
 <template>
-  <NxWelcome title="pomodoro" />
+  <Layout title="pomodoro" />
 </template>
