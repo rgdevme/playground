@@ -20,17 +20,38 @@ const elapsed = computed(() => ({
   minutes: Math.floor(seconds.value / 60).toString().padStart(2, '0')
 }))
 
-onMounted(() => {
-  const interval = setInterval(() => {
+const interval = ref<number | undefined>(undefined)
+
+const startTimer = () => {
+  interval.value = setInterval(() => {
     if (seconds.value >= (round.value.seconds ?? 0)) {
-      if (pendingRounds.value.length <= 1) clearInterval(interval)
+      if (pendingRounds.value.length <= 1) clearInterval(interval.value)
       else {
         finishedRounds.value.push(pendingRounds.value.splice(0, 1)[0])
         seconds.value = 0
       }
     } else seconds.value++
   }, 100)
-})
+}
+
+const pauseTimer = () => {
+  clearInterval(interval.value)
+}
+
+const stopTimer = () => {
+  clearInterval(interval.value)
+  seconds.value = 0
+}
+
+const resetTimer = () => {
+  stopTimer()
+  pendingRounds.value = [...finishedRounds.value, ...pendingRounds.value]
+  finishedRounds.value = []
+}
+
+// onMounted(() => {
+//   startTimer()
+// })
 
 </script>
 
@@ -40,7 +61,12 @@ onMounted(() => {
     <div class="round-index">({{ round.index }} / {{ pendingRounds.length + finishedRounds.length }})</div>
     <div class="dial"></div>
     <div class="time">{{ elapsed.minutes }}:{{ elapsed.seconds }}</div>
-    <div class="control"></div>
+    <div class="control">
+      <button @click="pauseTimer">pause</button>
+      <button @click="startTimer">play</button>
+      <button @click="stopTimer">stop</button>
+      <button @click="resetTimer">reset</button>
+    </div>
     <div class="skip"></div>
     <div class="sound"></div>
   </div>
