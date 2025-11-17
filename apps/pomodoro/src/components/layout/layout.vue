@@ -14,6 +14,9 @@ const sounds = ref({
   stop: new Audio(calm)
 })
 
+const muted = ref(false)
+const toggleMute = () => muted.value = !muted.value
+
 const queue = useQueue<Timer>({
   items: [
     { label: 'Focus', type: TimerType.FOCUS, seconds: 0.5 * 60 },
@@ -29,7 +32,7 @@ const queue = useQueue<Timer>({
       timer.value.setDuration(current.seconds)
       timer.value.play()
       if (Math.abs(i - prev) === 1 && !muted.value) {
-      sounds.value[current.type].play()
+        sounds.value[current.type].play()
       }
     }
   }
@@ -55,6 +58,7 @@ const timer = useTimer({
       <button v-if="queue.index > 0" @click="() => queue.goTo(0)">reset</button>
       <button v-if="queue.index < queue.length - 1" @click="queue.next">next</button>
       <button v-if="queue.index > 0" @click="queue.previous">prev</button>
+      <button @click="toggleMute">{{ muted ? 'soud off' : 'sound on' }}</button>
     </div>
   </div>
 </template>
