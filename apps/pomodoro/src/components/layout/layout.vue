@@ -2,20 +2,8 @@
 import { computed, ref } from 'vue'
 import chord from '../../../assets/chord.wav'
 import chord2 from '../../../assets/chord2.wav'
-import calm from '../../../assets/calm.wav'
+import { Timer, TimerType } from '../../types'
 import dial from '../dial/dial.vue'
-
-enum TimerType {
-  FOCUS,
-  BREAK
-}
-
-export type Timer = {
-  index: number;
-  label: string;
-  type: TimerType;
-  seconds: number;
-}
 
 const sounds = ref({
   [TimerType.FOCUS]: new Audio(chord),

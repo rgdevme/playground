@@ -2,7 +2,7 @@
 import { gsap } from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import { computed, onMounted, ref, watch } from 'vue';
-import { Timer } from '../layout/layout.vue';
+import { Timer } from '../../types';
 
 gsap.registerPlugin(DrawSVGPlugin);
 
