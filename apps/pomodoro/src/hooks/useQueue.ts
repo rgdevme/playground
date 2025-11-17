@@ -31,12 +31,12 @@ export const useQueue = <T = any>({
   const next = () => goTo(index.value + 1)
   const previous = () => goTo(index.value - 1)
 
-  return {
+  return ref({
     status,
     index,
     length: queue.value.length,
     next,
     previous,
     goTo
-  }
+  })
 }

@@ -23,42 +23,39 @@ const queue = useQueue<Timer>({
   ].map((r, i) => ({ ...r, index: i + 1, seconds: r.seconds })),
   onChange: (current, i, prev, q) => {
     if (i === (q.length - 1)) {
-      timer.stop()
-      sounds.value.stop.play()
+      timer.value.stop()
+      if (!muted.value) sounds.value.stop.play()
     } else {
-      timer.setDuration(current.seconds)
-      timer.play()
+      timer.value.setDuration(current.seconds)
+      timer.value.play()
+      if (Math.abs(i - prev) === 1 && !muted.value) {
       sounds.value[current.type].play()
+      }
     }
   }
 })
 
 const timer = useTimer({
-  duration: queue.status.value.current.seconds,
-  onFinished: () => queue.next()
+  duration: queue.value.status.current.seconds,
+  onFinished: () => queue.value.next()
 })
 
 </script>
 
 <template>
   <div class="timer">
-    <dial :timer="queue.status.value.current" color="green" :status="timer.status.value" />
-    <div class="currentTimer-label">{{ queue.status.value.current.label }}</div>
-    <div class="currentTimer-index">({{ queue.status.value.current.index }} / {{ queue.status.value.pending.length +
-      queue.length }})
-    </div>
-    <div class="dial"></div>
-    <div class="time">{{ timer.elapsed.value.minutes }}:{{ timer.elapsed.value.seconds }}</div>
+    <dial :timer="queue.status.current" color="green" :status="timer.status" />
+    <div class="currentTimer-label">{{ queue.status.current.label }}</div>
+    <div class="time">{{ timer.elapsed.minutes }}:{{ timer.elapsed.seconds }}</div>
+    <div class="currentTimer-index">({{ queue.status.current.index }} / {{ queue.length }})</div>
     <div class="control">
-      <button @click="timer.pause">pause</button>
-      <button @click="timer.play">play</button>
-      <button @click="timer.stop">stop</button>
-      <button @click="() => queue.goTo(0)">reset</button>
-      <button @click="queue.next">next</button>
-      <button @click="queue.previous">prev</button>
+      <button v-if="timer.status === 'play'" @click="timer.pause">pause</button>
+      <button v-else @click="timer.play">play</button>
+      <button v-if="timer.status !== 'stop'" @click="timer.stop">stop</button>
+      <button v-if="queue.index > 0" @click="() => queue.goTo(0)">reset</button>
+      <button v-if="queue.index < queue.length - 1" @click="queue.next">next</button>
+      <button v-if="queue.index > 0" @click="queue.previous">prev</button>
     </div>
-    <div class="skip"></div>
-    <div class="sound"></div>
   </div>
 </template>
 

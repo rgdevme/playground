@@ -43,7 +43,7 @@ export const useTimer = ({
 
   const setDuration = (value: number) => dur.value = value
 
-  return {
+  return ref({
     play,
     pause,
     stop,
@@ -51,5 +51,5 @@ export const useTimer = ({
     elapsed,
     status,
     total: tracked
-  }
+  })
 }
