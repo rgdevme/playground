@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { gsap } from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { Timer } from '../../types';
 
 gsap.registerPlugin(DrawSVGPlugin);
@@ -12,12 +12,19 @@ const { timer, status, color } = defineProps<{
   color: string
 }>()
 
-const radius = 75
+const wrapper = useTemplateRef('dial')
+const radius = ref(75)
 const strokeWidth = ref(15)
 const viewBox = computed(() => {
-  return (radius * 2) + strokeWidth.value
+  return (radius.value * 2) + strokeWidth.value
 })
 const tl = ref(gsap.timeline())
+
+const updateRadius = () => {
+  if (!wrapper.value) return
+  const { width } = wrapper.value.getBoundingClientRect()
+  radius.value = (width / 2) - strokeWidth.value
+}
 
 const reset = () => {
   console.log('reseting');
@@ -58,15 +65,34 @@ const handleState = () => {
 
 watch(() => status, handleState)
 watch(() => timer, reset)
-onMounted(reset)
+onMounted(() => {
+  reset()
+  window.addEventListener("resize", updateRadius);
+
+})
 
 </script>
 
 <template>
-  <svg id="dial" :width="viewBox" :height="viewBox" :viewBox="`0 0 ${viewBox} ${viewBox}`" fill="none">
-    <circle id="bg" :cx="viewBox / 2" :cy="viewBox / 2" :r="radius" stroke="lightgray" :stroke-width="strokeWidth" />
-    <circle id="tracker" :cx="viewBox / 2" :cy="viewBox / 2" :r="radius" :stroke="color" :stroke-width="strokeWidth" />
-  </svg>
+  <div ref="dial" class="dial">
+    <svg id="dial" :width="viewBox" :height="viewBox" :viewBox="`0 0 ${viewBox} ${viewBox}`" fill="none">
+      <circle id="bg" :cx="viewBox / 2" :cy="viewBox / 2" :r="radius" stroke="rgba(0,0,0,0.05)"
+        :stroke-width="strokeWidth" style="box-shadow: 0.5rem 0 inset rgba(0,0,0,0.5);" />
+      <circle id="tracker" :cx="viewBox / 2" :cy="viewBox / 2" :r="radius" :stroke="color"
+        :stroke-width="strokeWidth" />
+    </svg>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.dial {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+svg {
+  margin: 0 auto;
+  width: min-content;
+}
+</style>
