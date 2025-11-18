@@ -92,6 +92,7 @@
     "@angular/platform-browser": "~20.3.0",
     "@angular/platform-browser-dynamic": "~20.3.0",
     "@angular/router": "~20.3.0",
+    "@tabler/icons-vue": "^3.35.0",
     "@tabler/icons-webfont": "^3.35.0",
     "chroma-js": "^3.1.2",
     "color-namer": "^1.4.0",
