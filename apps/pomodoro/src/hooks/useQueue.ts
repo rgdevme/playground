@@ -1,12 +1,20 @@
 import { computed, ref } from "vue"
 
+type QueueEventProps<T> = {
+  item: T,
+  index: number,
+  stepSize: number,
+  queue: T[]
+}
+
 export const useQueue = <T = any>({
   items,
-  onChange
+  onChange,
+  onFinish,
 }: {
-  items: T[]
-  onChange?: (
-    currentItem: T, index: number, previous: number, queue: T[]) => void
+  items: T[],
+  onFinish?: (option: QueueEventProps<T>) => void
+  onChange?: (options: QueueEventProps<T>) => void
 }) => {
   const queue = ref(items)
   const index = ref(0)
@@ -22,11 +30,21 @@ export const useQueue = <T = any>({
   })
 
   const goTo = (i: number) => {
-    const newIndex = Math.min(Math.max(0, i), queue.value.length - 1)
+    const maxIndex = queue.value.length - 1
+    const newIndex = Math.min(Math.max(0, i), maxIndex)
     const oldIndex = index.value
     if (newIndex === oldIndex) return
     index.value = newIndex
-    onChange?.(queue.value[newIndex] as T, newIndex, oldIndex, queue.value as T[])
+
+    const props: QueueEventProps<T> = {
+      index: newIndex,
+      stepSize: newIndex - oldIndex,
+      item: queue.value[newIndex] as T,
+      queue: queue.value as T[]
+    }
+
+    if (newIndex === maxIndex && onFinish) onFinish(props)
+    else if (onChange) onChange(props)
   }
   const next = () => goTo(index.value + 1)
   const previous = () => goTo(index.value - 1)
