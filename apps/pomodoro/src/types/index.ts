@@ -1,11 +1,15 @@
 export enum TimerType {
   FOCUS,
-  BREAK
+  BREAK,
+  pomodoro,
+  breather,
+  recess
 }
 
 export type Timer = {
-  index: number;
   label: string;
   type: TimerType;
   seconds: number;
+  sound: HTMLAudioElement;
+  index: number
 }
