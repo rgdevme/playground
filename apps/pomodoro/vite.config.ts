@@ -8,6 +8,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/pomodoro',
+  base: '/playground/apps/pomodoro/',
   server: {
     port: 4200,
     host: 'localhost',
@@ -25,12 +26,12 @@ export default defineConfig(() => ({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,vue}'], // Assets to cache
       },
-      devOptions: {enabled: true},
+      devOptions: { enabled: true },
       // 2. Add the Web App Manifest configuration
       manifest: {
         name: 'Pom',
         start_url: '/',
-        display:'standalone',
+        display: 'standalone',
         short_name: 'Pom',
         description: 'Pomodoro timer',
         theme_color: '#ffffff',
