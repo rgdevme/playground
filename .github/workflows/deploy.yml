@@ -38,7 +38,7 @@ jobs:
           cache: 'npm' # Or 'yarn', 'pnpm'
 
       - name: 📦 Install Dependencies
-        run: npm install # Or 'yarn install', 'pnpm install'
+        run: npm ci --force # Or 'yarn install', 'pnpm install'
 
       # -----------------------------------------------------------
       # 1. NX CACHING AND AFFECTED BUILD
