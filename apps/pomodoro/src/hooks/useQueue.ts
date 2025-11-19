@@ -8,26 +8,16 @@ type QueueEventProps<T> = {
 }
 
 export const useQueue = <T = any>({
-  items,
   onChange,
   onFinish,
+  onEnqueue
 }: {
-  items: T[],
+  onEnqueue?: (queue: T[]) => void
   onFinish?: (option: QueueEventProps<T>) => void
   onChange?: (options: QueueEventProps<T>) => void
 }) => {
-  const queue = ref(items)
+  const queue = ref<T[]>([])
   const index = ref(0)
-
-  const status = computed(() => {
-    console.log('statusing');
-
-    const i = index.value
-    const pending = queue.value.slice(0, i)
-    const current = queue.value[i]
-    const finished = queue.value.slice(i + 1)
-    return { pending, current, finished }
-  })
 
   const goTo = (i: number) => {
     const maxIndex = queue.value.length - 1
@@ -46,15 +36,31 @@ export const useQueue = <T = any>({
     if (newIndex === maxIndex && onFinish) onFinish(props)
     else if (onChange) onChange(props)
   }
+
   const next = () => goTo(index.value + 1)
   const previous = () => goTo(index.value - 1)
+  const enqueue = (items: T[]) => {
+    queue.value = items
+    onEnqueue?.(items)
+  }
 
-  return ref({
-    status,
-    index,
-    length: queue.value.length,
+  const methods = {
+    goTo,
     next,
     previous,
-    goTo
+    enqueue
+  }
+
+  const state = computed(() => {
+    const i = index.value
+    return {
+      index: i,
+      length: queue.value.length,
+      pending: queue.value.slice(0, i),
+      current: queue.value[i],
+      finished: queue.value.slice(i + 1),
+    }
   })
+
+  return [state, methods] as [typeof state, typeof methods]
 }
