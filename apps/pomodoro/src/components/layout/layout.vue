@@ -58,9 +58,11 @@ const timer = useTimer({
 
 <template>
   <div class="timer">
-    <dial :timer="queue.status.current" color="green" :status="timer.status" />
+    <dial :class="`status-${timer.status}`" :timer="queue.status.current" color="hsl(162, 85%, 50%)"
+      :status="timer.status" />
     <div class="label">{{ queue.status.current.label }}</div>
-    <div class="time">{{ timer.elapsed.minutes }}:{{ timer.elapsed.seconds }}</div>
+    <div :class="`time status-${timer.status}`" style="--color: hsl(162, 85%, 50%);">{{ timer.elapsed.minutes }}:{{
+      timer.elapsed.seconds }}</div>
     <div class="index">({{ queue.status.current.index }} / {{ queue.length }})</div>
     <btn v-if="timer.status === 'play'" class="play" @click="timer.pause">
       <IconPlayerPauseFilled />
@@ -71,13 +73,13 @@ const timer = useTimer({
     <btn v-if="timer.status !== 'stop'" class="stop" @click="timer.stop">
       <IconPlayerStopFilled />
     </btn>
-    <btn v-else-if="queue.index > 0" class="stop" @click="() => queue.goTo(0)">
+    <btn v-else :disable="queue.index === 0" class="stop" @click="() => queue.goTo(0)">
       <IconArrowBackUpDouble />
     </btn>
-    <btn v-if="queue.index < queue.length - 1" class="next" @click="queue.next">
+    <btn :disable="queue.index >= queue.length - 1" class="next" @click="queue.next">
       <IconPlayerSkipForwardFilled />
     </btn>
-    <btn v-if="queue.index > 0" class="prev" @click="queue.previous">
+    <btn :disable="queue.index === 0" class="prev" @click="queue.previous">
       <IconPlayerSkipBackFilled />
     </btn>
     <btn class="vol" @click="toggleMute">
@@ -87,7 +89,7 @@ const timer = useTimer({
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .timer {
   padding: 1rem;
   /* border-radius: 1rem; */
@@ -102,7 +104,7 @@ const timer = useTimer({
   justify-content: center;
   justify-items: center;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   grid-template:
     'label  label  label    label  label' 1rem
     'dial   dial   dial     dial    dial' auto
@@ -120,6 +122,13 @@ const timer = useTimer({
   font-size: 24px;
   line-height: 1em;
   font-weight: bold;
+  color: rgba(0, 0, 0, 0.15);
+
+  &.status- {
+    &play {
+      color: var(--color);
+    }
+  }
 }
 
 .dial {
@@ -130,11 +139,14 @@ const timer = useTimer({
   grid-area: label;
   font-size: 14px;
   font-weight: bold;
+  opacity: 0.35;
 }
 
 .index {
   grid-area: index;
   font-size: 12px;
+  font-weight: bold;
+  opacity: 0.35;
 }
 
 /* .controls {

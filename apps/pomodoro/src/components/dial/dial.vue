@@ -13,7 +13,8 @@ const { timer, status, color } = defineProps<{
 }>()
 
 const wrapper = useTemplateRef('dial')
-const radius = ref(75)
+const originalRadius = ref(150)
+const radius = ref(150)
 const strokeWidth = ref(15)
 const viewBox = computed(() => {
   return (radius.value * 2) + strokeWidth.value
@@ -23,7 +24,9 @@ const tl = ref(gsap.timeline())
 const updateRadius = () => {
   if (!wrapper.value) return
   const { width } = wrapper.value.getBoundingClientRect()
-  radius.value = (width / 2) - strokeWidth.value
+  const viewportRadius = (width / 2) - strokeWidth.value
+  const newRadius = Math.min(originalRadius.value, viewportRadius)
+  radius.value = newRadius
 }
 
 const reset = () => {
@@ -74,25 +77,48 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="dial" class="dial">
-    <svg id="dial" :width="viewBox" :height="viewBox" :viewBox="`0 0 ${viewBox} ${viewBox}`" fill="none">
-      <circle id="bg" :cx="viewBox / 2" :cy="viewBox / 2" :r="radius" stroke="rgba(0,0,0,0.05)"
-        :stroke-width="strokeWidth" style="box-shadow: 0.5rem 0 inset rgba(0,0,0,0.5);" />
+  <div ref="dial" class="dial" :style="`--inner-size: ${viewBox}px; --outer-size: ${radius * 2 - strokeWidth}px; --offset: ${strokeWidth}px`">
+    <svg id="dial" class="neumorphic sm flat" :width="viewBox" :height="viewBox" :viewBox="`0 0 ${viewBox} ${viewBox}`"
+      fill="none">
+      <circle id="bg" :cx="viewBox / 2" :cy="viewBox / 2" :r="radius" :stroke-width="strokeWidth" />
       <circle id="tracker" :cx="viewBox / 2" :cy="viewBox / 2" :r="radius" :stroke="color"
         :stroke-width="strokeWidth" />
     </svg>
+    <div class="top neumorphic sm concave" />
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .dial {
   width: 100%;
-  max-width: 300px;
+  height: var(--inner-size);
   margin: 0 auto;
+  position: relative;
+
+  .top {
+    box-sizing: border-box;
+    position: absolute;
+    width: var(--outer-size);
+    height: var(--outer-size);
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, var(--offset));
+    aspect-ratio: 1;
+    border-radius: 100%;
+  }
 }
 
 svg {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 100%;
   margin: 0 auto;
   width: min-content;
+  position: absolute;
+
+  #bg {
+    stroke: rgba(0, 0, 0, 0.025);
+  }
 }
 </style>

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
+:root {
+  --bg: hsl(170, 100%, 85%);
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
@@ -11,6 +15,7 @@ html {
 }
 
 body {
+  background-color: var(--bg);
   font-family: inherit;
   line-height: inherit;
   margin: 0;
@@ -47,4 +52,66 @@ a {
 pre {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
+}
+
+.neumorphic {
+  font-size: 16px;
+
+  --bg-color: var(--bg);
+  --bg-angle: -45deg;
+  --bg-start: rgba(0, 0, 0, 0.15);
+  --bg-end: rgba(255, 255, 255, 0.3);
+  --shade-x: 0.75em;
+  --shade-y: 0.75em;
+  --shade-s: 1em;
+  --shade-c: rgba(0, 0, 0, 0.15);
+  --light-x: -0.5em;
+  --light-y: -0.5em;
+  --light-s: 0.75em;
+  --light-c: rgba(255, 255, 255, 0.75);
+
+  border-radius: 3em;
+  background: var(--bg-color);
+  box-shadow:
+    var(--shade-x) var(--shade-y) var(--shade-s) 0 var(--shade-c),
+    var(--light-x) var(--light-y) var(--light-s) 0 var(--light-c);
+  transition: background box-shadow font-size transform 150ms ease-in-out;
+
+  &:not(.flat) {
+    background:
+      linear-gradient(var(--bg-angle), var(--bg-start), var(--bg-color), var(--bg-end)),
+      var(--bg-color);
+  }
+
+  &.concave {
+    --bg-angle: 135deg
+  }
+
+  &.convex {
+    --bg-angle: -45deg
+  }
+
+  $sizes: (
+    'sm': 8px,
+    'md':16px,
+    'lg':20px
+  );
+
+@each $k, $v in $sizes {
+  &.#{$k} {
+    font-size: $v;
+
+    &.animated {
+      &:hover {
+        font-size: $v * 0.7;
+        transform: scale(1.1);
+      }
+
+      &:active {
+        --shade-c: rgba(0, 0, 0, 0.05);
+        --light-c: rgba(255, 255, 255, 0.65);
+      }
+    }
+  }
+}
 }
