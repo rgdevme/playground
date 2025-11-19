@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/playground/apps/pomodoro/dev-sw.js?dev-sw', { scope: '/playground/apps/pomodoro/', type: 'classic' })

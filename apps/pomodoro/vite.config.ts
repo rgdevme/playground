@@ -35,19 +35,20 @@ export default defineConfig(() => ({
         short_name: 'Pom',
         description: 'Pomodoro timer',
         theme_color: '#ffffff',
+        scope: "/",
         icons: [
           {
-            src: 'assets/icon.png',
+            src: 'icon192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'assets/icon.png',
+            src: 'icon512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },
           {
-            src: 'assets/icon.png',
+            src: 'icon512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
@@ -56,10 +57,6 @@ export default defineConfig(() => ({
       },
     }),
   ],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
   build: {
     outDir: '../../dist/apps/pomodoro',
     emptyOutDir: true,
