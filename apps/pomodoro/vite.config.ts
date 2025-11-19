@@ -30,12 +30,12 @@ export default defineConfig(() => ({
       // 2. Add the Web App Manifest configuration
       manifest: {
         name: 'Pom',
-        start_url: '/',
+        start_url: '/playground/apps/pomodoro/',
+        scope: '/',
         display: 'standalone',
         short_name: 'Pom',
         description: 'Pomodoro timer',
         theme_color: '#ffffff',
-        scope: "/",
         icons: [
           {
             src: 'icon192x192.png',
