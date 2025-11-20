@@ -1,27 +1,61 @@
-import { useSettings } from "../context/settings"
+import { onMounted, ref, watch } from "vue"
+import { settings } from "../context/settings"
 import { Timer } from "../types"
 
-export const useRounds = () => {
-  const {
-    roundSize,
-    rounds,
-    pomodoro,
-    breather,
-    recess,
-  } = useSettings()
+export const useRounds = ({ onChange }: { onChange: (items: Timer[]) => void }) => {
+  const queue = ref([] as Timer[])
 
-  let count = 0
-  const total = roundSize * 2
-  const queue: Timer[] = []
-
-  while (++count <= rounds) {
-    queue.push(
-      { ...pomodoro, index: queue.length + 1 },
-      count === total
-        ? { ...recess, index: queue.length + 2 }
-        : { ...breather, index: queue.length + 2 },
-    )
+  const update = () => {
+    const r = generateRounds()
+    queue.value = r
+    onChange(r)
   }
 
-  return queue
+  watch(
+    () => ({
+      roundSize: settings.roundSize,
+      rounds: settings.rounds,
+      pseconds: settings.pomodoro.minutes,
+      bseconds: settings.breather.minutes,
+      rseconds: settings.recess.minutes
+    }),
+    update
+  )
+
+  onMounted(update)
+
+  return queue.value
+}
+
+const generateRounds = () => {
+  console.log('generateRounds');
+  const q = [] as Timer[]
+  let roundCount = 0
+  const roundSize = parseInt(settings.roundSize as any)
+
+  while (++roundCount <= settings.rounds) {
+    let sizeCount = 0
+    while (++sizeCount <= roundSize) {
+      q.push(
+        {
+          ...settings.pomodoro,
+          seconds: parseInt(settings.pomodoro.minutes as any) * 60,
+          index: q.length + 1
+        },
+        sizeCount === roundSize
+          ? {
+            ...settings.recess,
+            seconds: parseInt(settings.recess.minutes as any) * 60,
+            index: q.length + 2
+          }
+          : {
+            ...settings.breather,
+            seconds: parseInt(settings.breather.minutes as any) * 60,
+            index: q.length + 2
+          },
+      )
+
+    }
+  }
+  return q
 }
