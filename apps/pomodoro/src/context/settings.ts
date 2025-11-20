@@ -1,31 +1,31 @@
 import chroma from 'chroma-js';
-import { reactive, watch } from "vue";
+import { onMounted, reactive, watch } from "vue";
 import calm from '../../assets/calm.wav';
 import chord from '../../assets/chord.wav';
 import chord2 from '../../assets/chord2.wav';
 import { TimerType } from '../types';
 
-type Settings = typeof initialSettings
-type Setting = keyof Settings
+export type Settings = typeof initialSettings
+export type Setting = keyof Settings
 
 const initialSettings = {
   tab: 'timer' as 'timer' | 'settings',
   pomodoro: {
     type: TimerType.pomodoro,
     label: 'Pomodoro',
-    seconds: 25,
+    minutes: 25,
     sound: new Audio(chord)
   },
   breather: {
     type: TimerType.breather,
     label: 'Breather',
-    seconds: 5,
+    minutes: 5,
     sound: new Audio(chord2)
   },
   recess: {
     type: TimerType.recess,
     label: 'Recess',
-    seconds: 15,
+    minutes: 15,
     sound: new Audio(chord2)
   },
   rounds: 3,
@@ -36,21 +36,20 @@ const initialSettings = {
   volume: 0.2,
   muted: false,
   color: chroma('hsl(162, 85%, 50%)').hex(),
-  direction: 'down' as 'up' | 'down'
+  countdown: true
 }
 
 const storedValue = localStorage.getItem('settings')
 const storedSettings: Settings = storedValue ? JSON.parse(storedValue) : {}
-
-const settings = reactive({ ...initialSettings, ...storedSettings })
-
-watch(settings, ({ tab, ...newValue }) => {
-  localStorage.setItem('settings', JSON.stringify(newValue))
-})
-
-export const useSettings = () => ({ ...settings })
-export const updateSettings = (update: Partial<Settings>) => {
-  for (const key in update) {
-    (settings as any)[key] = update[key as Setting]
-  }
+const store = (data: Omit<Settings, 'tab'>) => {
+  localStorage.setItem('settings', JSON.stringify(data))
 }
+
+export const settings = reactive({ ...initialSettings, ...storedSettings })
+
+store(settings)
+
+watch(() => JSON.parse(JSON.stringify({ ...settings })) as Settings, ({ tab, ...newValue }, old) => {
+  if (newValue.color !== old.color) document.documentElement.style.setProperty("--bg", newValue.color);
+  store(newValue)
+})

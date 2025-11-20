@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { useSettings } from '../../context/settings';
+import { onMounted } from 'vue';
+import { settings } from '../../context/settings';
 import Queue from '../queue/queue.vue';
 import Settings from '../settings/settings.vue';
 import Timer from '../timer/timer.vue';
 
-const settings = useSettings()
-
+onMounted(() => {
+  document.documentElement.style.setProperty("--bg", settings.color);
+})
 </script>
 
 <template>
   <Timer v-if="settings.tab === 'timer'" />
-  <Settings v-else />
+  <Settings />
   <Queue />
 </template>
 

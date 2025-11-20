@@ -19,6 +19,7 @@ import { useTimer } from '../../hooks/useTimer'
 import { Timer, TimerType } from '../../types'
 import btn from '../button/btn.vue'
 import dial from '../dial/dial.vue'
+import { settings } from '../../context/settings'
 
 const sounds = ref({
   [TimerType.FOCUS]: new Audio(chord),
@@ -26,55 +27,44 @@ const sounds = ref({
   stop: new Audio(calm)
 })
 
-const muted = ref(false)
-const toggleMute = () => muted.value = !muted.value
+const toggleMute = () => settings.muted = !settings.muted
 
-const rounds = useRounds()
-const [timer, { stop, play, set, pause }] = useTimer({
-  onFinished: () => next()
-})
 
 const [queue, { enqueue, next, previous, goTo }] = useQueue<Timer>({
-  onEnqueue: ([first]) => set(first.seconds),
+  onEnqueue: ([first]) => controls.set(first?.seconds),
   onFinish: ({ item }) => {
     stop()
-    if (!muted.value) item.sound.play()
+    if (!settings.muted) item.sound.play()
   },
   onChange: ({ item, stepSize }) => {
-    set(item.seconds)
-    if (Math.abs(stepSize) === 1) play()
-    if (!muted.value) {
-      item.sound.volume = 0.2
+    controls.set(item.seconds)
+    if (Math.abs(stepSize) === 1) controls.play()
+    if (!settings.muted) {
+      item.sound.volume = settings.volume
       item.sound.play()
     }
   }
 })
-
-onMounted(() => {
-  enqueue(rounds)
-})
-
-watch(queue, () => {
-  console.log(queue.value.current.seconds)
-})
+useRounds({ onChange: enqueue })
+const [timer, controls] = useTimer({ onFinished: next })
 
 </script>
 
 <template>
   <div v-if="queue.current" class="timer">
-    <dial :class="`status-${timer.status}`" :timer="queue.current" color="hsl(162, 85%, 50%)" :status="timer.status" />
+    <dial :class="`status-${timer.status}`" :timer="queue.current" :color="settings.color" :status="timer.status" />
     <div class="label">{{ queue.current.label }}</div>
-    <div :class="`time status-${timer.status}`" style="--color: hsl(162, 85%, 50%);">
+    <div :class="`time status-${timer.status}`" style="--color: {{ settings.color }};">
       {{ timer.minutes }}:{{ timer.seconds }}
     </div>
     <div class="index">({{ queue.current.index }} / {{ queue.length }})</div>
-    <btn v-if="timer.status === 'play'" class="play" @click="pause">
+    <btn v-if="timer.status === 'play'" class="play" @click="controls.pause">
       <IconPlayerPauseFilled />
     </btn>
-    <btn v-else class="play" @click="play">
+    <btn v-else class="play" @click="controls.play">
       <IconPlayerPlayFilled />
     </btn>
-    <btn v-if="timer.status !== 'stop'" class="stop" @click="stop">
+    <btn v-if="timer.status !== 'stop'" class="stop" @click="controls.stop">
       <IconPlayerStopFilled />
     </btn>
     <btn v-else :disable="queue.index === 0" class="stop" @click="() => goTo(0)">
@@ -87,7 +77,7 @@ watch(queue, () => {
       <IconPlayerSkipBackFilled />
     </btn>
     <btn class="vol" @click="toggleMute">
-      <IconBellXFilled v-if="muted" />
+      <IconBellXFilled v-if="settings.muted" />
       <IconBellRingingFilled v-else />
     </btn>
   </div>

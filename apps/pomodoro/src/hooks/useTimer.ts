@@ -1,12 +1,11 @@
 import { computed, ref } from "vue"
-import { useSettings } from "../context/settings"
+import { settings } from "../context/settings"
 
 export const useTimer = ({
   onFinished
 }: {
   onFinished?: () => void
 }) => {
-  const { direction } = useSettings()
   const interval = ref<number | undefined>(undefined)
   const clear = () => clearInterval(interval.value)
 
@@ -47,13 +46,12 @@ export const useTimer = ({
   }
 
   const state = computed(() => {
-    const forward = direction === 'up'
     const elapsedSeconds = tracked.value % 60
     const totalSeconds = duration.value % 60
-    const seconds = forward ? elapsedSeconds : totalSeconds - elapsedSeconds
+    const seconds = settings.countdown ? totalSeconds - elapsedSeconds : elapsedSeconds
     const elapsedMinutes = Math.floor(tracked.value / 60)
     const totalMinutes = Math.floor(duration.value / 60)
-    const minutes = forward ? elapsedMinutes : totalMinutes- elapsedMinutes
+    const minutes = settings.countdown ? totalMinutes - elapsedMinutes : elapsedMinutes
     return ({
       duration: duration.value,
       status: status.value,
