@@ -32,10 +32,10 @@ export default defineConfig(() => ({
         name: 'Pom',
         start_url: '/playground/apps/pomodoro/',
         scope: '/',
-        display: 'standalone',
+        display: 'fullscreen',
         short_name: 'Pom',
         description: 'Pomodoro timer',
-        theme_color: '#ffffff',
+        theme_color: '#2e2e2eff',
         icons: [
           {
             src: 'icon192x192.png',
