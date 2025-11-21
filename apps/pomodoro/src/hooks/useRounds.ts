@@ -28,10 +28,9 @@ export const useRounds = ({ onChange }: { onChange: (items: Timer[]) => void }) 
 }
 
 const generateRounds = () => {
-  console.log('generateRounds');
   const q = [] as Timer[]
   let roundCount = 0
-  const roundSize = parseInt(settings.roundSize as any)
+  const roundSize = settings.roundSize
 
   while (++roundCount <= settings.rounds) {
     let sizeCount = 0
@@ -39,18 +38,18 @@ const generateRounds = () => {
       q.push(
         {
           ...settings.pomodoro,
-          seconds: parseInt(settings.pomodoro.minutes as any) * 60,
+          seconds: settings.pomodoro.minutes * 60,
           index: q.length + 1
         },
         sizeCount === roundSize
           ? {
             ...settings.recess,
-            seconds: parseInt(settings.recess.minutes as any) * 60,
+            seconds: settings.recess.minutes * 60,
             index: q.length + 2
           }
           : {
             ...settings.breather,
-            seconds: parseInt(settings.breather.minutes as any) * 60,
+            seconds: settings.breather.minutes * 60,
             index: q.length + 2
           },
       )
