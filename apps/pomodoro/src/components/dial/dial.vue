@@ -30,7 +30,6 @@ const updateRadius = () => {
 }
 
 const reset = () => {
-  console.log('reseting');
   tl.value.kill()
   gsap.set('#dial #tracker', {
     drawSVG: '0%',
@@ -42,12 +41,10 @@ const reset = () => {
       drawSVG: '100%',
       duration: timer.seconds,
       ease: "power1.inOut",
-      onComplete: () => console.log('finished')
     })
 }
 
 const handleState = () => {
-  console.log('handling state', status);
   switch (status) {
     case 'play':
       tl.value.play()
