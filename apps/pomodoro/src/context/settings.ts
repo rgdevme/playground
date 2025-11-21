@@ -5,10 +5,10 @@ import chord from '../../assets/chord.wav';
 import chord2 from '../../assets/chord2.wav';
 import { TimerType } from '../types';
 
-export type Settings = typeof initialSettings
+export type Settings = typeof defaultSettings
 export type Setting = keyof Settings
 
-const initialSettings = {
+const defaultSettings = {
   tab: 'timer' as 'timer' | 'settings',
   pomodoro: {
     type: TimerType.pomodoro,
@@ -42,18 +42,19 @@ const initialSettings = {
 const storedValue = localStorage.getItem('settings')
 const storedSettings: Settings = storedValue ? JSON.parse(storedValue) : {}
 
-storedSettings.pomodoro.sound = initialSettings.pomodoro.sound
-storedSettings.breather.sound = initialSettings.breather.sound
-storedSettings.recess.sound = initialSettings.recess.sound
+
+const initialSettings = { ...defaultSettings, ...storedSettings }
+initialSettings.pomodoro.sound = defaultSettings.pomodoro.sound
+initialSettings.breather.sound = defaultSettings.breather.sound
+initialSettings.recess.sound = defaultSettings.recess.sound
+
+export const settings = reactive(initialSettings)
 
 const store = (data: Omit<Settings, 'tab'>) => {
   localStorage.setItem('settings', JSON.stringify(data))
 }
 
-export const settings = reactive({ ...initialSettings, ...storedSettings })
-
 store(settings)
-
 watch(() => JSON.parse(JSON.stringify({ ...settings })) as Settings, ({ tab, ...newValue }, old) => {
   if (newValue.color !== old.color) document.documentElement.style.setProperty("--bg", newValue.color);
   store(newValue)
