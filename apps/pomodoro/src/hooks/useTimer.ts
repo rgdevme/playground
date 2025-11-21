@@ -13,6 +13,22 @@ export const useTimer = ({
   const status = ref<'play' | 'pause' | 'stop'>('stop')
   const tracked = ref(0)
 
+  const countUp = () => {
+    const seconds = tracked.value % 60
+    const minutes = Math.floor(tracked.value / 60)
+    return { seconds, minutes }
+  }
+
+  const countDown = () => {
+    const elapsedSeconds = tracked.value % 60
+    const totalSeconds = duration.value % 60
+    const seconds = (59 - totalSeconds) - elapsedSeconds
+    const elapsedMinutes = Math.floor(tracked.value / 60)
+    const totalMinutes = Math.floor(duration.value / 60)
+    const minutes = totalMinutes - elapsedMinutes
+    return { seconds, minutes }
+  }
+
   const play = () => {
     clear()
     status.value = 'play'
@@ -46,12 +62,7 @@ export const useTimer = ({
   }
 
   const state = computed(() => {
-    const elapsedSeconds = tracked.value % 60
-    const totalSeconds = duration.value % 60
-    const seconds = settings.countdown ? totalSeconds - elapsedSeconds : elapsedSeconds
-    const elapsedMinutes = Math.floor(tracked.value / 60)
-    const totalMinutes = Math.floor(duration.value / 60)
-    const minutes = settings.countdown ? totalMinutes - elapsedMinutes : elapsedMinutes
+    const { seconds, minutes } = settings.countdown ? countDown() : countUp()
     return ({
       duration: duration.value,
       status: status.value,
