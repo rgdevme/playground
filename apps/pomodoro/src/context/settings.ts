@@ -35,12 +35,17 @@ const initialSettings = {
   mode: 'system' as 'light' | 'dark' | 'system',
   volume: 0.2,
   muted: false,
-  color: chroma('hsl(162, 85%, 50%)').hex(),
+  color: chroma('#13ecab26').hex(),
   countdown: true
 }
 
 const storedValue = localStorage.getItem('settings')
 const storedSettings: Settings = storedValue ? JSON.parse(storedValue) : {}
+
+storedSettings.pomodoro.sound = initialSettings.pomodoro.sound
+storedSettings.breather.sound = initialSettings.breather.sound
+storedSettings.recess.sound = initialSettings.recess.sound
+
 const store = (data: Omit<Settings, 'tab'>) => {
   localStorage.setItem('settings', JSON.stringify(data))
 }
