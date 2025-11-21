@@ -4,5 +4,5 @@ import Layout from '../components/layout/layout.vue';
 </script>
 
 <template>
-  <Layout title="pomodoro" />
+  <Layout />
 </template>
