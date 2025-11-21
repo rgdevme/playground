@@ -25,8 +25,7 @@ const updateRadius = () => {
   if (!wrapper.value) return
   const { width } = wrapper.value.getBoundingClientRect()
   const viewportRadius = (width / 2) - strokeWidth.value
-  const newRadius = Math.min(originalRadius.value, viewportRadius)
-  radius.value = newRadius
+  radius.value = viewportRadius
 }
 
 const reset = () => {
@@ -66,6 +65,7 @@ const handleState = () => {
 watch(() => status, handleState)
 watch(() => timer, reset)
 onMounted(() => {
+  updateRadius()
   reset()
   window.addEventListener("resize", updateRadius);
 
@@ -88,9 +88,8 @@ onMounted(() => {
 <style scoped lang="scss">
 .dial {
   width: 100%;
-  height: var(--inner-size);
-  margin: 0 auto;
-  position: relative;
+  aspect-ratio: 1;
+  margin: auto;
 
   .top {
     box-sizing: border-box;
