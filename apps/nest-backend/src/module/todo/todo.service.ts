@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
-import { CreateToDoDto, UpdateToDoDto } from './todo.dto';
+import { CreateToDoDto, UpdateToDoDto } from './dto/todo.dto';
 import { ToDo, ToDoDocument } from './todo.schema';
 
 @Injectable()

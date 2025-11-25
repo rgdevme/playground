@@ -1,10 +1,10 @@
 import { Test } from '@nestjs/testing'
-import { ToDosController } from '../todo.controller'
-import { ToDoDocument } from '../todo.schema'
-import { ToDosService } from '../todo.service'
-import { todoStub } from '../todo.stub'
+import { ToDosController } from './todo.controller'
+import { ToDoDocument } from './todo.schema'
+import { ToDosService } from './todo.service'
+import { todoStub } from './todo.stub'
 
-jest.mock('../todo.service')
+jest.mock('./todo.service')
 
 describe('TodoController', () => {
   let controller: ToDosController

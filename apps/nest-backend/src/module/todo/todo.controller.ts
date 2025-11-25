@@ -1,6 +1,6 @@
 
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { CreateToDoDto, UpdateToDoDto } from './todo.dto';
+import { CreateToDoDto, UpdateToDoDto } from './dto/todo.dto';
 import { ToDoDocument } from './todo.schema';
 import { ToDosService } from './todo.service';
 
